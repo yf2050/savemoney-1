@@ -1,7 +1,7 @@
 <template>
-  <div>Statistics按钮
-    <Nav/>
-  </div>
+  <Layout>
+    <p>Statisics内容部分</p>
+  </Layout>
 </template>
 
 <script lang="ts">
