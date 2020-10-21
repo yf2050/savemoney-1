@@ -13,8 +13,8 @@
     </div>
     <div>
       <label class="notes">
-        <span class="'name">备注</span>
-        <input type="text">
+        <span class="name">备注</span>
+        <input type="text" placeholder="在这里输入备注">
       </label>
     </div>
     <div>
@@ -53,4 +53,78 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
+
+.tags {
+  font-size: 14px;
+  padding: 16px;
+
+  > .current {
+    display: flex;
+
+    > li {
+      background-color: #D9D9D9;
+      $h: 24px;
+      height: $h;
+      line-height: $h;
+      //border-radius:$h/2;
+      border-radius: (24px/2);
+      padding: 0 17px 0 18px;
+      margin-right: 14px;
+    }
+  }
+
+  > .new {
+    padding-top: 16px;
+
+    button {
+      background: transparent;
+      border: none;
+      color: #999999;
+      border-bottom: 1px solid;
+      padding: 0 3px;
+    }
+  }
+}
+
+.notes {
+  background-color: #f5f5f5;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+
+  > .name {
+    padding: 0 16px;
+  }
+
+  input {
+    height: 64px;
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+  }
+}
+
+.types {
+  background: #c4c4c4;
+  display: flex;
+  text-align: center;
+  font-size: 24px;
+  > li {
+    width: 50%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    &.selected::after{
+      content: '';
+      position: absolute;
+      bottom:0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #333;
+    }
+  }
+}
 </style>
