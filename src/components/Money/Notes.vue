@@ -3,15 +3,20 @@
     <div>
       <label class="notes">
         <span class="name">备注</span>
-        <input type="text" placeholder="在这里输入备注">
+        <input type="text" placeholder="在这里输入备注" v-model="value"/>
+        <!--@input="x = $event.target.value" :value="x"-->
       </label>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Notes'
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+
+@Component
+export default class Notes extends Vue {
+  value = '';
 }
 </script>
 
