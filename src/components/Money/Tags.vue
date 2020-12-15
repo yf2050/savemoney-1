@@ -5,35 +5,27 @@
         <button>新增标签</button>
       </div>
       <ul class="current">
-        <li>衣</li>
-        <li>食</li>
-        <li>住</li>
-        <li>行</li>
-        <li>衣</li>
-        <li>食</li>
-        <li>住</li>
-        <li>行</li>
-        <li>衣</li>
-        <li>食</li>
-        <li>住</li>
-        <li>行</li>
-        <li>衣</li>
-        <li>食</li>
-        <li>住</li>
-        <li>行</li>
-        <li>衣</li>
-        <li>食</li>
-        <li>住</li>
-        <li>行</li>
-
+        <li v-for="tag in dataSource" :key="tag" @click="select(tag)"
+            :class="{selected:selectedTags.indexOf(tag)>=0}">{{ tag }}
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Tags'
+import Vue from 'vue';
+import {Component, Prop} from 'vue-property-decorator';
+
+@Component
+export default class Tags extends Vue {
+  // @Prop(Array)tags: string[]=[];//字符串数组,只有冒号后面是ts能识别的，前面的都是js
+  @Prop() dataSource: string[] | undefined;//不用赋值 给外部数据
+  selectedTags: string[] = [];//被选中的
+
+  select(tag: string) {
+    this.selectedTags.push(tag);
+  }
 }
 </script>
 
@@ -59,6 +51,10 @@ export default {
       padding: 0 17px 0 18px;
       margin-right: 16px;
       margin-top: 4px;
+      &.selected{
+        background-color:#000;
+        color: white;
+      }
     }
   }
 
