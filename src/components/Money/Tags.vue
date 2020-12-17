@@ -5,7 +5,7 @@
         <button>新增标签</button>
       </div>
       <ul class="current">
-        <li v-for="tag in dataSource" :key="tag" @click="select(tag)"
+        <li v-for="tag in dataSource" :key="tag" @click="toggle(tag)"
             :class="{selected:selectedTags.indexOf(tag)>=0}">{{ tag }}
         </li>
       </ul>
@@ -23,8 +23,11 @@ export default class Tags extends Vue {
   @Prop() dataSource: string[] | undefined;//不用赋值 给外部数据
   selectedTags: string[] = [];//被选中的
 
-  select(tag: string) {
-    this.selectedTags.push(tag);
+  toggle(tag: string) { //开关toggle
+    const index = this.selectedTags.indexOf(tag);
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1);
+    } else { this.selectedTags.push(tag);}
   }
 }
 </script>
@@ -42,7 +45,8 @@ export default class Tags extends Vue {
     flex-wrap: wrap;
 
     > li {
-      background-color: #D9D9D9;
+      $bg: #D9D9D9;
+      background-color: $bg;
       $h: 24px;
       height: $h;
       line-height: $h;
@@ -51,8 +55,9 @@ export default class Tags extends Vue {
       padding: 0 17px 0 18px;
       margin-right: 16px;
       margin-top: 4px;
-      &.selected{
-        background-color:#000;
+
+      &.selected {
+        background-color: darken($bg, 50%);
         color: white;
       }
     }
