@@ -2,7 +2,7 @@
   <div>
     <div class="tags">
       <div class="new">
-        <button>新增标签</button>
+        <button @click="createTag">新增标签</button>
       </div>
       <ul class="current">
         <li v-for="tag in dataSource" :key="tag" @click="toggle(tag)"
@@ -20,7 +20,7 @@ import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class Tags extends Vue {
   // @Prop(Array)tags: string[]=[];//字符串数组,只有冒号后面是ts能识别的，前面的都是js
-  @Prop() dataSource: string[] | undefined;//不用赋值 给外部数据
+  @Prop() readonly dataSource: string[] | undefined;//不用赋值 给外部数据
   selectedTags: string[] = [];//被选中的
 
   toggle(tag: string) { //开关toggle
@@ -28,6 +28,16 @@ export default class Tags extends Vue {
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
     } else { this.selectedTags.push(tag);}
+  }
+
+  createTag() {
+    const name = window.prompt('请输入标签名');
+    if (name === '') {
+      window.alert('标签名不能为空');
+    } else if (this.dataSource) {
+      this.$emit('update:dataSource', [...this.dataSource, name]);
+      //this.selectedTags.push(name as string) //不建议这样写，修改了内部属性,用readonly
+    }
   }
 }
 </script>
