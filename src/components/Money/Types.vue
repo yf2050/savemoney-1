@@ -2,8 +2,8 @@
   <div>
     <div>
       <ul class="types">
-        <li :class="type === '-' && 'selected'" @click="selectType('-')">支出</li>
-        <li :class="type === '+' && 'selected'" @click="selectType('+')">收入</li>
+        <li :class="value === '-' && 'selected'" @click="selectType('-')">支出</li>
+        <li :class="value === '+' && 'selected'" @click="selectType('+')">收入</li>
       </ul>
     </div>
   </div>
@@ -11,16 +11,26 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component //告诉下面是个vue组件，这样type自动处理成data
 export default class Types extends Vue {
-  type = '-'; //赋值属性默认变成实例属性，成为data
+
+  // type = '-'; //赋值属性默认变成实例属性，成为data
+  @Prop() readonly value!: string;//加上感叹号意思为不管有无初始值，子组件
+
   selectType(type: string) {
     if (type !== '-' && type !== '+') { //type只能是'+' '-'
       throw new Error('type is unknown');
     }
-    this.type = type;
+    this.$emit('update:value', type);
+
+    // this.type = type;
+    // this.$emit("update:value",this.type) 不建议这种，由于值在没变化时，重复点击还是会触发事件
+    // @Watch('type')
+    // onTypeChanged(value: string) {
+    //   this.$emit('update:value', value);
+    // }
   }
 }
 

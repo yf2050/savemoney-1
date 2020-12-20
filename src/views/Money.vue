@@ -1,26 +1,55 @@
 <template>
   <Layout class-prefix="layout">
-    <NumberPad/>
-    <Types/>
-    <Notes/>
-    <Tags :data-source.sync="tags"/>
+    {{ record }}
+    <NumberPad :value.sync="record.amount"/>
+    <Types :value.sync='record.type'/>
+    <Notes @update:value="onUpdateNotes"/>
+    <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
   </Layout>
 </template>
 
 <script lang="ts">
-import Tags from '@/components/Money/Tags.vue'
-import Notes from '@/components/Money/Notes.vue'
-import Types from '@/components/Money/Types.vue'
-import NumberPad from '@/components/Money/NumberPad.vue'
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import Tags from '@/components/Money/Tags.vue';
+import Notes from '@/components/Money/Notes.vue';
+import NumberPad from '@/components/Money/NumberPad.vue';
+import Types from '@/components/Money/Types.vue';
 
-export default {
-  name: 'money.vue',
-  components: {NumberPad, Types, Notes, Tags},
-  data() {
-    return {
-      tags: ['衣', '食', '住', '行','用']
-    }
+// var record = {
+//   tags: ['衣', '食'],
+//   notes: '备注',
+//   type: '+',
+//   number: '255'
+// };
+type Record = { //先声明Recode类型
+  tags: string[];
+  notes: string;
+  type: string;
+  amount: number;
+}
+@Component({
+  components: {NumberPad, Types, Notes, Tags}
+}) //components不能写在下面，不然相当于data了
+export default class Money extends Vue {
+  tags = ['衣', '食', '住', '行', '用'];
+  record: Record = {tags: [], notes: '', type: '+', amount:10};
+
+  // onUpdateAmount(value: string) {
+  //   this.record.amount = parseFloat(value);
+  // }
+
+  onUpdateTags(value: string[]) {
+    this.record.tags = value;
   }
+
+  onUpdateNotes(value: string) {
+    this.record.notes = value;
+  }
+
+  // onUpdateType(value: string) {
+  //   this.record.type = value;
+  // }
 }
 </script>
 <style lang="scss">

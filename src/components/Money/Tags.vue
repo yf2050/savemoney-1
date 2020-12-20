@@ -28,6 +28,7 @@ export default class Tags extends Vue {
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
     } else { this.selectedTags.push(tag);}
+    this.$emit('update:value',this.selectedTags)
   }
 
   createTag() {
