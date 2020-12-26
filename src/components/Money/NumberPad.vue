@@ -64,6 +64,7 @@ export default class NumberPad extends Vue {
 
   ok(){
     this.$emit('update:value',this.output)
+    this.$emit("submit",this.output) //再对点击ok加上点击事件
   }
 }
 </script>
