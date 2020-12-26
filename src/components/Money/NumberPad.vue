@@ -29,7 +29,7 @@ import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class NumberPad extends Vue {
   @Prop() readonly value!: number; //这里传入的是number,接收的需要时外部传入的string
-  output=this.value.toString();
+  output = this.value.toString();
   // output = '0';
 
   inputContent(event: MouseEvent) {
@@ -62,9 +62,10 @@ export default class NumberPad extends Vue {
     this.output = '0'; //清空默认值还是0
   }
 
-  ok(){
-    this.$emit('update:value',this.output)
-    this.$emit("submit",this.output) //再对点击ok加上点击事件
+  ok() {
+    this.$emit('update:value', this.output);
+    this.$emit('submit', this.output); //再对点击ok加上点击事件
+    this.output = '0';
   }
 }
 </script>
