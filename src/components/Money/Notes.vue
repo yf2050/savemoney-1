@@ -2,8 +2,8 @@
   <div>
     <div>
       <label class="notes">
-        <span class="name">备注</span>
-        <input type="text" placeholder="在这里输入备注" v-model="value"/>
+        <span class="name">{{ this.fileName }}</span>
+        <input type="text" :placeholder=this.placeholder v-model="value"/>
         <!--@input="x = $event.target.value" :value="x"-->
       </label>
     </div>
@@ -12,11 +12,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Watch} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class Notes extends Vue {
   value = '';
+  @Prop({required: true}) fileName!: string; //必须存在，感叹号意思不会为空
+  @Prop() placeholder?: string; //?问号表示可以为空
 
   @Watch('value')
   onValueChanged(value: string) {
