@@ -15,7 +15,7 @@ import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
-export default class Notes extends Vue {
+export default class FormItem extends Vue {
   value = '';
   @Prop({required: true}) fileName!: string; //必须存在，感叹号意思不会为空
   @Prop() placeholder?: string; //?问号表示可以为空
