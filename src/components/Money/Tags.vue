@@ -6,7 +6,7 @@
       </div>
       <ul class="current">
         <li v-for="tag in dataSource" :key="tag" @click="toggle(tag)"
-            :class="{selected:selectedTags.indexOf(tag)>=0}">{{ tag }}
+            :class="{selected:selectedTags.indexOf(tag)>=0}">{{ tag.name }}
         </li>
       </ul>
     </div>
@@ -28,7 +28,7 @@ export default class Tags extends Vue {
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
     } else { this.selectedTags.push(tag);}
-    this.$emit('update:value',this.selectedTags)
+    this.$emit('update:value', this.selectedTags);
   }
 
   createTag() {
@@ -45,6 +45,7 @@ export default class Tags extends Vue {
 
 <style lang="scss" scoped>
 .tags {
+  background-color: white;
   display: flex;
   flex-grow: 1;
   flex-direction: column-reverse;

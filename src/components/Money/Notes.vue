@@ -2,8 +2,8 @@
   <div>
     <div>
       <label class="notes">
-        <span class="name">{{ this.fileName }}</span>
-        <input type="text" :placeholder=this.placeholder v-model="value"/>
+        <span class="name">{{ fileName }}</span>
+        <input type="text" :placeholder=placeholder v-model="value"/>
         <!--@input="x = $event.target.value" :value="x"-->
       </label>
     </div>
@@ -29,8 +29,7 @@ export default class FormItem extends Vue {
 
 <style lang="scss" scoped>
 .notes {
-  background-color: #f5f5f5;
-  font-size: 14px;
+  font-size: 16px;
   display: flex;
   align-items: center;
 
