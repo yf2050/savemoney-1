@@ -3,7 +3,10 @@
     <div>
       <label class="notes">
         <span class="name">{{ fileName }}</span>
-        <input type="text" :placeholder=placeholder v-model="value"/>
+        <input type="text"
+               :placeholder=placeholder
+               :value="value"
+               @input="onValueChanged($event.target.value)"/>
         <!--@input="x = $event.target.value" :value="x"-->
       </label>
     </div>
@@ -16,7 +19,7 @@ import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class FormItem extends Vue {
-  @Prop({default: ''}) value!: string;
+  @Prop({default: ''}) readonly value!: string; //不能进行读写
   @Prop({required: true}) fileName!: string; //必须存在，感叹号意思不会为空
   @Prop() placeholder?: string; //?问号表示可以为空
 
