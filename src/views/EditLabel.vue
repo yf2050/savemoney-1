@@ -1,13 +1,15 @@
 <template>
   <div class="EditLabel">
+
     <div class="navBar">
-      <Icon class="leftIcon" name="left"/>
+      <!--      可以用.native-->
+      <Icon class="leftIcon" name="left" @click="goBack"/>
       <span class="title">标签编辑</span>
       <Icon class="rightIcon"/>
     </div>
     <FormItem class="form-wrapper" :value="tag.name" fileName="标签名" placeholder='请输入标签名' @update:value="updateTag"/>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="remove">删除标签</Button>
     </div>
   </div>
 </template>
@@ -27,7 +29,7 @@ export default class EditLabel extends Vue {
 
   created() {
     const id = this.$route.params.id;
-    console.log(id);
+    // console.log(id);
     tagListModel.fetch();
     const tags = tagListModel.data;
     const tag = tags.filter(t => t.id === id)[0];//不用find太新，用filter
@@ -38,10 +40,23 @@ export default class EditLabel extends Vue {
     }
   }
 
+  //更新标签
   updateTag(name: string) {
     if (this.tag) {
       tagListModel.update(this.tag.id, name);
     }
+  }
+
+// 删除标签
+  remove() {
+    if (this.tag) {
+      tagListModel.remove(this.tag.id);
+    }
+  }
+
+// 回退
+  goBack() {
+    this.$router.back();
   }
 }
 </script>

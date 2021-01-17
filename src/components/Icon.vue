@@ -1,20 +1,21 @@
 <template>
-    <svg class="icon">
-      <use v-bind:xlink:href="'#'+name"/> //其中v-bind可省略，直接用冒号
-    </svg>
+  <svg class="icon" @click="$emit('click',$event)">
+    <use v-bind:xlink:href="'#'+name"/>
+    //其中v-bind可省略，直接用冒号
+  </svg>
 </template>
 
 <script lang="ts">
-const importAll = (requireContext: __WebpackModuleApi.RequireContext) => requireContext.keys().forEach(requireContext)
+const importAll = (requireContext: __WebpackModuleApi.RequireContext) => requireContext.keys().forEach(requireContext);
 try {
-  importAll(require.context('../assets/icons', true, /\.svg$/))
+  importAll(require.context('../assets/icons', true, /\.svg$/));
 } catch (error) {
-  console.log(error)
+  console.log(error);
 }
 export default {
-  props:['name'], //添加外部属性 给Icon加上name
+  props: ['name'], //添加外部属性 给Icon加上name
   name: 'Icon'
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -9,6 +9,7 @@ type TagListModel = {
   fetch: () => Tag[];
   create: (name: string) => 'success' | 'duplicated'; //类似于枚举，只返回字符串的两个值，联合类型---字符串子类型
   update: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
+  remove: (id: string) => boolean;
   save: () => void; //不返回数据
 }
 
@@ -44,6 +45,20 @@ const tagListModel: TagListModel = {
     } else {
       return 'not found';
     }
+  },
+
+  //删除标签
+  remove(id: string) {
+    let index = -1;
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i].id === id) {
+        index = i;
+        break;
+      }
+    }
+    this.data.splice(index, 1);//删除找到的数据
+    this.save();//保存一下
+    return true;
   },
   //写数据
   save() {
