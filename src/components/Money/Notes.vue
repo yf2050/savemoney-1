@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class FormItem extends Vue {
@@ -23,7 +23,7 @@ export default class FormItem extends Vue {
   @Prop({required: true}) fileName!: string; //必须存在，感叹号意思不会为空
   @Prop() placeholder?: string; //?问号表示可以为空
 
-  @Watch('value')
+  // @Watch('value')
   onValueChanged(value: string) {
     this.$emit('update:value', value);
   }
