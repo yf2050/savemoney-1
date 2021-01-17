@@ -5,7 +5,7 @@
       <span class="title">标签编辑</span>
       <Icon class="rightIcon"/>
     </div>
-    <FormItem class="form-wrapper" fileName="标签名" placeholder="请输入标签"/>
+    <FormItem class="form-wrapper" :value="tag.name" fileName="标签名" placeholder='请输入标签名' @update:value="updateTag"/>
     <div class="button-wrapper">
       <Button>删除标签</Button>
     </div>
@@ -35,6 +35,12 @@ export default class EditLabel extends Vue {
       this.tag = tag;
     } else {
       this.$router.replace('/404');
+    }
+  }
+
+  updateTag(name: string) {
+    if (this.tag) {
+      tagListModel.update(this.tag.id, name);
     }
   }
 }
