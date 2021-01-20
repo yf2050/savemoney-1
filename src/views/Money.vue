@@ -16,10 +16,8 @@ import FormItem from '@/components/Money/Notes.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import Types from '@/components/Money/Types.vue';
 import recordListModel from '@/models/recordListModel';
-import tagListModel from '@/models/tagListModel';
 
 const recordList = recordListModel.fetch();
-const tagList = tagListModel.fetch();
 
 window.localStorage.version = '0.0.1';
 
@@ -27,7 +25,7 @@ window.localStorage.version = '0.0.1';
   components: {NumberPad, Types, FormItem, Tags}
 }) //components不能写在下面，不然相当于data了
 export default class Money extends Vue {
-  tags = tagList;
+  tags = window.tagList;
   recordList = recordList; //是record的集合
   record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
 
