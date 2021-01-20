@@ -40,12 +40,9 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
+    recordListModel.create(this.record);
     //深拷贝 由于是对象，直接push会覆盖，生成一个完全一样的不同对象
-    const record2: RecordItem = recordListModel.clone(this.record);//克隆
-    // const record2: RecordItem = JSON.parse(JSON.stringify(this.record));//克隆
-    record2.createdAt = new Date();
-    this.recordList.push(record2);
-    console.log(this.recordList);
+    // const record2: RecordItem = JSON.parse(JSON.stringify(this.record));
     //localStorage.set('recordList',JSON.stringify(this.recordList)) //把recordList放在localStorage中，然后要进行JSON.stringify序列化，这种方法不是全局不好
   }
 

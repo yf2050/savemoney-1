@@ -1,16 +1,22 @@
+import clone from '@/lib/clone';
+
 const localStorageKeyName = 'recordList'; //把名称用变量保存
 const recordListModel = {
-  //克隆方法 把record转到record2
-  clone(data: RecordItem | RecordItem[]) {
-    return JSON.parse(JSON.stringify(data));
+  data: [] as RecordItem[],
+  //定义 把他单独出来 data类型
+  create(record: RecordItem) {
+    const record2: RecordItem = clone(record);
+    record2.createdAt = new Date();
+    this.data.push(record2);
   },
   //读数据
   fetch() {
-    return JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[]; //是record的集合
+    this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[]; //是record的集合
+    return this.data;
   },
   //写数据
-  save(data: RecordItem[]) {
-    window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));
+  save() {
+    window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
   }
 };
 export default recordListModel;
