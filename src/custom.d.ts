@@ -23,4 +23,5 @@ type TagListModel = {
 //定义一下 类型
 interface Window {
   tagList: Tag[];
+  createTag: (name: string) => void; //没有返回值
 }
