@@ -44,7 +44,7 @@ export default class Money extends Vue {
     //localStorage.set('recordList',JSON.stringify(this.recordList)) //把recordList放在localStorage中，然后要进行JSON.stringify序列化，这种方法不是全局不好
   }
 
-  @Watch('recordList')
+  // @Watch('recordList') 无需watch
   onRecordListChange() {
     // window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
     recordListModel.save(this.recordList);
