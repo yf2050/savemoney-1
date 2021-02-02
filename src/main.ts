@@ -14,7 +14,7 @@ Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 
-//全局的
+//增
 window.tagList = tagListModel.fetch();
 window.createTag = (name: string) => {
   const message = tagListModel.create(name);
@@ -24,7 +24,18 @@ window.createTag = (name: string) => {
     window.alert('添加成功');
   }
 };
-
+//删
+window.removeTag = (id: string) => {
+  return tagListModel.remove(id);
+};
+//改 tag里的所有东西
+window.updateTag = (id: string, name: string) => {
+  return tagListModel.update(id, name);
+};
+//查 标签
+window.findTag = (id: string) => {
+  return window.tagList.filter(t => t.id === id)[0];//不用find太新，用filter
+};
 new Vue({
   router,
   store,

@@ -45,8 +45,8 @@ export default class Money extends Vue {
   }
 
   // @Watch('recordList') 无需watch
+// window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
   onRecordListChange() {
-    // window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
     recordListModel.save(this.recordList);
   }
 }
