@@ -29,4 +29,6 @@ interface Window {
   //类型和上一样,直接用TagListModel['update']
   //updateTag: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
   findTag: (id: string) => Tag;
+  recordList: RecordItem[];
+  createRecord: (record: RecordItem) => void;
 }

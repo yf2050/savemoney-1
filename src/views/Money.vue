@@ -10,14 +10,11 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Watch} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import Tags from '@/components/Money/Tags.vue';
 import FormItem from '@/components/Money/Notes.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import Types from '@/components/Money/Types.vue';
-import recordListModel from '@/models/recordListModel';
-
-const recordList = recordListModel.fetch();
 
 window.localStorage.version = '0.0.1';
 
@@ -26,7 +23,7 @@ window.localStorage.version = '0.0.1';
 }) //components不能写在下面，不然相当于data了
 export default class Money extends Vue {
   tags = window.tagList;
-  recordList = recordList; //是record的集合
+  recordList = window.recordList; //是record的集合
   record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
 
   onUpdateTags(value: string[]) {
@@ -38,17 +35,17 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    recordListModel.create(this.record);
+    window.createRecord(this.record);
     //深拷贝 由于是对象，直接push会覆盖，生成一个完全一样的不同对象
     // const record2: RecordItem = JSON.parse(JSON.stringify(this.record));
     //localStorage.set('recordList',JSON.stringify(this.recordList)) //把recordList放在localStorage中，然后要进行JSON.stringify序列化，这种方法不是全局不好
   }
 
   // @Watch('recordList') 无需watch
-// window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
-  onRecordListChange() {
-    recordListModel.save(this.recordList);
-  }
+  // window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
+  // onRecordListChange() {
+  //   recordListModel.save();
+  // }
 }
 </script>
 <style lang="scss">
