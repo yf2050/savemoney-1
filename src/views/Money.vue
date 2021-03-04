@@ -4,7 +4,7 @@
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync='record.type'/>
     <FormItem fileName="备注" placeholder="请输入备注" @update:value="onUpdateNotes"/>
-    <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
+    <Tags/>
   </Layout>
 </template>
 
@@ -23,14 +23,8 @@ window.localStorage.version = '0.0.1';
   components: {NumberPad, Types, FormItem, Tags}
 }) //components不能写在下面，不然相当于data了
 export default class Money extends Vue {
-  tags = store.tagList;
   recordList = store.recordList; //是record的集合
   record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
-
-  onUpdateTags(value: string[]) {
-    this.record.tags = value;
-  }
-
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
