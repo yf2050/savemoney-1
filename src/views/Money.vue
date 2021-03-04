@@ -6,8 +6,6 @@
     <Types :value.sync='record.type'/>
     <FormItem fileName="备注" placeholder="请输入备注" @update:value="onUpdateNotes"/>
     <Tags/>
-    {{ count }}
-    <button @click="$store.commit('increment',10)">+1</button>
   </Layout>
 </template>
 
@@ -24,9 +22,6 @@ window.localStorage.version = '0.0.1';
 
 @Component({
   components: {NumberPad, Types, FormItem, Tags},
-  computed: {
-    count() {return this.$store.state.count;}
-  }
 }) //components不能写在下面，不然相当于data了
 export default class Money extends Vue {
   record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
