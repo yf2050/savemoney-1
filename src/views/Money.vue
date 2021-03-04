@@ -3,11 +3,11 @@
 
     {{ record }}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
-    {{ count }}
-    <button @click="add">+1</button>
     <Types :value.sync='record.type'/>
     <FormItem fileName="备注" placeholder="请输入备注" @update:value="onUpdateNotes"/>
     <Tags/>
+    {{ count }}
+    <button @click="$store.commit('increment',10)">+1</button>
   </Layout>
 </template>
 
@@ -18,28 +18,17 @@ import Tags from '@/components/Money/Tags.vue';
 import FormItem from '@/components/Money/Notes.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import Types from '@/components/Money/Types.vue';
-import store from '@/store/index2';
+import oldStore from '@/store/index2';
 
 window.localStorage.version = '0.0.1';
 
 @Component({
   components: {NumberPad, Types, FormItem, Tags},
   computed: {
-    count() {
-      return store.count;
-    },
-    recordList() {
-      return store.recordList; //地址recordList 复制到recordList
-    }
+    count() {return this.$store.state.count;}
   }
 }) //components不能写在下面，不然相当于data了
 export default class Money extends Vue {
-  // store = store; //告诉vue监听store
-
-  add() {
-    store.addCount();
-  }
-
   record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
 
   onUpdateNotes(value: string) {
@@ -47,7 +36,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    store.createRecord(this.record);
+    oldStore.createRecord(this.record);
     //深拷贝 由于是对象，直接push会覆盖，生成一个完全一样的不同对象
     // const record2: RecordItem = JSON.parse(JSON.stringify(this.record));
     //localStorage.set('recordList',JSON.stringify(this.recordList)) //把recordList放在localStorage中，然后要进行JSON.stringify序列化，这种方法不是全局不好
