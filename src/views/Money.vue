@@ -1,7 +1,10 @@
 <template>
   <Layout class-prefix="layout">
+
     {{ record }}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
+    {{ count }}
+    <button @click="add">+1</button>
     <Types :value.sync='record.type'/>
     <FormItem fileName="备注" placeholder="请输入备注" @update:value="onUpdateNotes"/>
     <Tags/>
@@ -20,11 +23,25 @@ import store from '@/store/index2';
 window.localStorage.version = '0.0.1';
 
 @Component({
-  components: {NumberPad, Types, FormItem, Tags}
+  components: {NumberPad, Types, FormItem, Tags},
+  computed: {
+    count() {
+      return store.count;
+    },
+    recordList() {
+      return store.recordList; //地址recordList 复制到recordList
+    }
+  }
 }) //components不能写在下面，不然相当于data了
 export default class Money extends Vue {
-  recordList = store.recordList; //是record的集合
+  // store = store; //告诉vue监听store
+
+  add() {
+    store.addCount();
+  }
+
   record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
+
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
