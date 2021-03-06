@@ -16,12 +16,18 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import oldStore from '@/store/index2';
 
-@Component
+@Component({
+  computed: {
+    tagList() {
+      //TODO
+      // return this.$store.fetchTags();
+      return [];
+    }
+  }
+})
 export default class Tags extends Vue {
   // @Prop(Array)tags: string[]=[];//字符串数组,只有冒号后面是ts能识别的，前面的都是js
-  tagList = oldStore.fetchTags();
   selectedTags: string[] = [];//被选中的
 
   toggle(tag: string) { //开关toggle
@@ -37,7 +43,8 @@ export default class Tags extends Vue {
     if (!name) {
       return window.alert('标签名不能为空');
     }
-    oldStore.createTag(name);
+    //TODO
+    // store.createTag(name);
   }
 }
 </script>

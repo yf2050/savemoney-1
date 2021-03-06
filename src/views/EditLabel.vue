@@ -19,7 +19,6 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/Money/Notes.vue';
 import Button from '@/components/Button.vue';
-import store from '@/store/index2';
 
 @Component({
   components: {Button, FormItem}
@@ -28,7 +27,8 @@ export default class EditLabel extends Vue {
   tag?: Tag = undefined;
 
   created() {
-    this.tag = store.findTag(this.$route.params.id);
+    //TODO
+    // this.tag = store.findTag(this.$route.params.id);
     if (!this.tag) {
       this.$router.replace('/404');
     }
@@ -37,18 +37,21 @@ export default class EditLabel extends Vue {
   // 删除标签
   remove() {
     if (this.tag) {
-      if (store.removeTag(this.tag.id)) {
-        this.$router.back();
-      } else {
-        alert('删除失败');
-      }
+      //TODO
+      return;
+      // if (store.removeTag(this.tag.id)) {
+      //   this.$router.back();
+      // } else {
+      //   alert('删除失败');
+      // }
     }
   }
 
   //更新标签
   updateTag(name: string) {
     if (this.tag) {
-      store.updateTag(this.tag.id, name);
+      //TODO
+      // store.updateTag(this.tag.id, name);
     }
   }
 

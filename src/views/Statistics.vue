@@ -1,14 +1,14 @@
 <template>
   <Layout>
-    <p>Statisics内容部分</p>
+    <p>Statistics内容部分</p>
   </Layout>
 </template>
 
 <script lang="ts">
 
 export default {
-  name: 'Statisics',
-}
+  name: 'Statistics',
+};
 </script>
 
 <style lang="scss" scoped>
