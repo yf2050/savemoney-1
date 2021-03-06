@@ -14,19 +14,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import {mixins} from 'vue-class-component';
+import TagHelper from '@/mixins/TagHelper';
 
 @Component({
   computed: {
     tagList() {
-      //TODO
-      // return this.$store.fetchTags();
-      return [];
+      return this.$store.state.tagList;
     }
   }
 })
-export default class Tags extends Vue {
+export default class Tags extends mixins(TagHelper) {
+  created() {
+    this.$store.commit('fetchTags');
+  }
+
   // @Prop(Array)tags: string[]=[];//字符串数组,只有冒号后面是ts能识别的，前面的都是js
   selectedTags: string[] = [];//被选中的
 
@@ -36,15 +39,6 @@ export default class Tags extends Vue {
       this.selectedTags.splice(index, 1);
     } else { this.selectedTags.push(tag);}
     this.$emit('update:value', this.selectedTags);
-  }
-
-  createTag() {
-    const name = window.prompt('请输入标签名');
-    if (!name) {
-      return window.alert('标签名不能为空');
-    }
-    //TODO
-    // store.createTag(name);
   }
 }
 </script>
