@@ -2,8 +2,8 @@
   <div>
     <div>
       <ul class="types">
-        <li :class="value === '-' && 'selected'" @click="selectType('-')">支出</li>
-        <li :class="value === '+' && 'selected'" @click="selectType('+')">收入</li>
+        <li :class="{[classPreFix+'-item']:classPreFix,selected:value==='-'}" @click="selectType('-')">支出</li>
+        <li :class="{[classPreFix+'-item']:classPreFix,selected:value==='+'}" @click="selectType('+')">收入</li>
       </ul>
     </div>
   </div>
@@ -15,9 +15,9 @@ import {Component, Prop} from 'vue-property-decorator';
 
 @Component //告诉下面是个vue组件，这样type自动处理成data
 export default class Types extends Vue {
-
   // type = '-'; //赋值属性默认变成实例属性，成为data
-  @Prop() readonly value!: string;//加上感叹号意思为不管有无初始值，子组件
+  @Prop(String) readonly value!: string;//加上感叹号意思为不管有无初始值，子组件
+  @Prop(String) classPreFix?: string;
 
   selectType(type: string) {
     if (type !== '-' && type !== '+') { //type只能是'+' '-'
@@ -58,6 +58,9 @@ export default class Types extends Vue {
       width: 100%;
       height: 4px;
       background: #333;
+    }
+    &::after {
+      display: none;
     }
   }
 }
