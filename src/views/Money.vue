@@ -2,7 +2,6 @@
   <Layout class-prefix="layout">
     {{ record }}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
-    <!--    <Types :value.sync='record.type'/>-->
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <FormItem fileName="备注" placeholder="请输入备注" @update:value="onUpdateNotes"/>
     <Tags/>
@@ -15,14 +14,13 @@ import {Component} from 'vue-property-decorator';
 import Tags from '@/components/Money/Tags.vue';
 import FormItem from '@/components/Money/Notes.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
-import Types from '@/components/Money/Types.vue';
 import recordTypeList from '@/constant/recordTypeList';
 import Tabs from '@/components/Tabs.vue';
 
 window.localStorage.version = '0.0.1';
 
 @Component({
-  components: {Tabs, NumberPad, Types, FormItem, Tags},
+  components: {Tabs, NumberPad, FormItem, Tags},
   //先读取
   created() {
     this.$store.commit('fetchRecords');
