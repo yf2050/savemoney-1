@@ -20,11 +20,6 @@ window.localStorage.version = '0.0.1';
 
 @Component({
   components: {NumberPad, Types, FormItem, Tags},
-  computed: {
-    recordList() {
-      return this.$store.state.recordList;
-    }
-  },
   //先读取
   created() {
     this.$store.commit('fetchRecords');
@@ -32,6 +27,10 @@ window.localStorage.version = '0.0.1';
 }) //components不能写在下面，不然相当于data了
 export default class Money extends Vue {
   record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
+
+  get recordList() {
+    return this.$store.state.recordList;
+  }
 
   onUpdateNotes(value: string) {
     this.record.notes = value;

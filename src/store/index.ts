@@ -2,14 +2,20 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from '@/lib/clone';
 import createId from '@/lib/createId';
+import router from '@/router';
 
 Vue.use(Vuex); // 把store绑定到vue。prototype.$store=store 初始化时
-
+type RootState = {
+  recordList: RecordItem[];
+  tagList: Tag[];
+  currentTag?: Tag;
+};
 const store = new Vuex.Store({
   state: {
-    recordList: [] as RecordItem[],
-    tagList: [] as Tag[]
-  },
+    recordList: [],
+    tagList: [],
+    currentTag: undefined
+  } as RootState,
   mutations: {
     //读数据
     fetchRecords(state) {
@@ -20,7 +26,7 @@ const store = new Vuex.Store({
       const record2: RecordItem = clone(record);
       record2.createdAt = new Date();
       // this.recordList && this.recordList.push(record2);
-      state.recordList?.push(record2);
+      state.recordList.push(record2);
       store.commit('saveRecords');
     },
     //存数据
@@ -37,16 +43,53 @@ const store = new Vuex.Store({
       const names = state.tagList.map(item => item.name);
       if (names.indexOf(name) >= 0) {
         window.alert('标签重复了');
-        return 'duplicated';
+      } else {
+        const id = createId().toString();
+        state.tagList.push({id: id, name: name});
+        store.commit('saveTags');
+        window.alert('添加成功');
       }
-      const id = createId().toString();
-      state.tagList.push({id: id, name: name});
-      store.commit('saveTags');
-      window.alert('添加成功');
-      return 'success';
     },
-    //写数据
-    saveTags(state) {window.localStorage.setItem('tagList', JSON.stringify(state.tagList));},
+    //保存标签
+    saveTags(state) {
+      window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
+    },
+    //查 标签
+    setCurrentTag(state, id: string) {
+      state.currentTag = state.tagList.filter(t => t.id === id)[0];//不用find太新，用filter
+    },
+    //删除标签
+    removeTag(state, id: string) {
+      let index = -1;
+      for (let i = 0; i < state.tagList.length; i++) {
+        if (state.tagList[i].id === id) {
+          index = i;
+          break;
+        }
+      }
+      if (index >= 0) {
+        state.tagList.splice(index, 1);//删除找到的数据
+        store.commit('saveTags');//保存一下
+        router.back();
+      } else {
+        window.alert('删除失败');
+      }
+    },
+    //更新修改标签
+    updateTag(state, payload: { id: string; name: string }) {
+      const {id, name} = payload;
+      const idList = state.tagList.map(item => item.id); //得到所有id
+      if (idList.indexOf(id) >= 0) {
+        const names = state.tagList.map(item => item.name);
+        if (names.indexOf(name) >= 0) {//判断标签名是否重复
+          window.alert('标签名重复了');
+        } else {
+          const tag = state.tagList.filter(item => item.id === id)[0];
+          tag.name = name;
+          store.commit('saveTags');
+        }
+      }
+    },
   }
 });
 export default store;

@@ -1,4 +1,6 @@
 import createId from '@/lib/createId';
+import store from '@/store/index';
+import router from '@/router';
 
 const localStorageKeyName = 'tagList'; //把名称用变量保存
 const tagStore = {
@@ -31,9 +33,14 @@ const tagStore = {
         break;
       }
     }
-    this.tagList.splice(index, 1);//删除找到的数据
-    this.saveTags();//保存一下
-    return true;
+    if (index >= 0) {
+      this.tagList.splice(index, 1);//删除找到的数据
+      store.commit('saveTags');//保存一下
+      router.back();
+    } else {
+      window.alert('删除失败');
+    }
+
   },
   //更新修改标签
   updateTag(id: string, name: string) {

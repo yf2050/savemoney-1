@@ -1,13 +1,13 @@
 <template>
   <div class="EditLabel">
-
     <div class="navBar">
       <!--      可以用.native-->
       <Icon class="leftIcon" name="left" @click="goBack"/>
       <span class="title">标签编辑</span>
       <Icon class="rightIcon"/>
     </div>
-    <FormItem class="form-wrapper" :value="tag.name" fileName="标签名" placeholder='请输入标签名' @update:value="updateTag"/>
+    <FormItem class="form-wrapper" :value="currentTag.name" fileName="标签名" placeholder='请输入标签名'
+              @update:value="updateTag"/>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
     </div>
@@ -24,34 +24,30 @@ import Button from '@/components/Button.vue';
   components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
-  tag?: Tag = undefined;
+  get currentTag() {
+    return this.$store.state.currentTag;
+  }
 
-  created() {
-    //TODO
-    // this.tag = store.findTag(this.$route.params.id);
-    if (!this.tag) {
+  created() {//实例创建之后执行代码
+    const id = this.$route.params.id;
+    this.$store.commit('fetchTags'); //解决直接刷新页面时获取tag数据
+    this.$store.commit('setCurrentTag', id);
+    if (!this.currentTag) {
       this.$router.replace('/404');
     }
   }
 
   // 删除标签
   remove() {
-    if (this.tag) {
-      //TODO
-      return;
-      // if (store.removeTag(this.tag.id)) {
-      //   this.$router.back();
-      // } else {
-      //   alert('删除失败');
-      // }
+    if (this.currentTag) {
+      this.$store.commit('removeTag', this.currentTag.id);
     }
   }
 
   //更新标签
   updateTag(name: string) {
-    if (this.tag) {
-      //TODO
-      // store.updateTag(this.tag.id, name);
+    if (this.currentTag) {
+      this.$store.commit('updateTag', {id: this.currentTag.id, name});
     }
   }
 
