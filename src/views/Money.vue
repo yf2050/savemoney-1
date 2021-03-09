@@ -2,7 +2,8 @@
   <Layout class-prefix="layout">
     {{ record }}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
-    <Types :value.sync='record.type'/>
+    <!--    <Types :value.sync='record.type'/>-->
+    <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <FormItem fileName="备注" placeholder="请输入备注" @update:value="onUpdateNotes"/>
     <Tags/>
   </Layout>
@@ -15,11 +16,13 @@ import Tags from '@/components/Money/Tags.vue';
 import FormItem from '@/components/Money/Notes.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import Types from '@/components/Money/Types.vue';
+import recordTypeList from '@/constant/recordTypeList';
+import Tabs from '@/components/Tabs.vue';
 
 window.localStorage.version = '0.0.1';
 
 @Component({
-  components: {NumberPad, Types, FormItem, Tags},
+  components: {Tabs, NumberPad, Types, FormItem, Tags},
   //先读取
   created() {
     this.$store.commit('fetchRecords');
@@ -27,6 +30,7 @@ window.localStorage.version = '0.0.1';
 }) //components不能写在下面，不然相当于data了
 export default class Money extends Vue {
   record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
+  recordTypeList = recordTypeList;
 
   get recordList() {
     return this.$store.state.recordList;
