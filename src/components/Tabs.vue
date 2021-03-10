@@ -5,6 +5,8 @@
           :key="item.value"
           @click="select(item)"
           :class="liClass(item)"
+          class="tabs-item"
+          :style="{height:height}"
       >{{ item.text }}
       </li>
     </ul>
@@ -21,6 +23,7 @@ export default class Tabs extends Vue {
   @Prop({required: true, type: Array}) dataSource!: DataSourceItem[];
   @Prop(String) readonly value!: string;//加上感叹号意思为不管有无初始值，子组件
   @Prop(String) classPreFix?: string;
+  @Prop({type: String, default: '64px'}) height!: string;
 
   liClass(item: DataSourceItem) {
     return {
@@ -42,9 +45,9 @@ export default class Tabs extends Vue {
   text-align: center;
   font-size: 24px;
 
-  > li {
+  &-item {
     width: 50%;
-    height: 64px;
+    //height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
