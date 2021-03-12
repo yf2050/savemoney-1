@@ -4,8 +4,13 @@ type RecordItem = { //先声明Recode类型
   notes: string;
   type: string;
   amount: number;  //数据类型 string | object
-  createdAt?: Date; //类 是object的划分 这里也叫构造函数
+  createdAt?: string; //类 是object的划分 这里也叫构造函数Date
 }
+type RootState = {
+  recordList: RecordItem[];
+  tagList: Tag[];
+  currentTag?: Tag;
+};
 //新建Tag里面含有id
 type Tag = {
   id: string;
