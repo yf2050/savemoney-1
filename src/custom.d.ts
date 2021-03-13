@@ -1,6 +1,6 @@
 //custom可以更换，xxx.d.ts代表自定义的全局
 type RecordItem = { //先声明Recode类型
-  tags: string[];
+  tags: Tag[];
   notes: string;
   type: string;
   amount: number;  //数据类型 string | object
@@ -16,11 +16,11 @@ type Tag = {
   id: string;
   name: string;
 }
-type TagListModel = {
-  data: Tag[];
-  fetch: () => Tag[];
-  create: (name: string) => 'success' | 'duplicated'; //类似于枚举，只返回字符串的两个值，联合类型---字符串子类型
-  update: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
-  remove: (id: string) => boolean;
-  save: () => void; //不返回数据
-}
+// type TagListModel = {
+//   data: Tag[];
+//   fetch: () => Tag[];
+//   create: (name: string) => 'success' | 'duplicated'; //类似于枚举，只返回字符串的两个值，联合类型---字符串子类型
+//   update: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
+//   remove: (id: string) => boolean;
+//   save: () => void; //不返回数据
+// }

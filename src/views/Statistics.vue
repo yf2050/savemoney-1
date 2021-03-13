@@ -2,7 +2,7 @@
   <Layout>
     <Tabs class-pre-fix="type" :data-source="recordTypeList" :value.sync="type"/>
     <Tabs class-pre-fix="interval" :data-source="intervalList" :value.sync="interval" height="48px"/>
-    <ol v-for="(group,index) in result" :key="index">
+    <ol v-for="(group,index) in groupList" :key="index">
       <li>
         <h3 class="title">{{ beautify(group.title) }}</h3>
         <ol v-for="item in group.items" :key="item.id">
@@ -25,6 +25,7 @@ import Tabs from '@/components/Tabs.vue';
 import intervalList from '@/constant/intervalList';
 import recordTypeList from '@/constant/recordTypeList';
 import dayjs from 'dayjs';
+import clone from '@/lib/clone';
 
 @Component({
   components: {Tabs},
@@ -36,33 +37,20 @@ export default class Statistics extends Vue {
   recordTypeList = recordTypeList;
 
   beautify(string: string) { //这个string是ISO 8601转换后的
-    const day=dayjs(string)
-    const now=dayjs()
+    const day = dayjs(string);
+    const now = dayjs();
     if (day.isSame(now, 'day')) {
       return '今天'; //now是当天日期
     } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
       return '昨天'; //subtract 前一天
     } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
       return '前天'; //subtract前两天
-    } else if(day.isSame(now,'year')){
-      return day.format('M月D日') //判断当年
-    }
-    else{
+    } else if (day.isSame(now, 'year')) {
+      return day.format('M月D日'); //判断当年
+    } else {
       return day.format('YYYY年M月D日'); //其余日期
     }
   }
-
-  //   const x = new Date(Date.parse(string));
-  //   console.log(x);
-  //   const y = x.getFullYear();
-  //   const m = x.getMonth();
-  //   const d = x.getDay();
-  //   const now = new Date();
-  //   if (now.getFullYear() === y && now.getMonth() === m && now.getDay() === d) {
-  //     return '今天';
-  //   }
-  //   return string;
-  // }
 
   tagString(tags: Tag[]) { //tag是数组 要显示数据
     return tags.length === 0 ? '空' : tags.join(',');
@@ -72,17 +60,23 @@ export default class Statistics extends Vue {
     return (this.$store.state as RootState).recordList;
   }
 
-  get result() {
+  get groupList() {
     const {recordList} = this;
-    type HashTableValue = { title: string; items: RecordItem[] }
-    const hashTable: { [key: string]: HashTableValue } = {};//定义空对象 key:value
+    if (recordList.length === 0) {return [];} //为空直接返回空
 
-    for (let i = 0; i < recordList.length; i++) {
-      const [date, time] = recordList[i].createdAt!.split('T');
-      hashTable[date] = hashTable[date] || {title: date, items: []};//左边是key 右边value
-      hashTable[date].items.push(recordList[i]);
+    const newList = clone(recordList).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+    const result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+    for (let i = 1; i < newList.length; i++) {
+      const current = newList[i];  //当前元素
+      const last = result[result.length - 1]; //结果的最后一个对像
+      if (dayjs(current.createdAt).isSame(last.title, 'day')) {
+        last.items.push(current);  //判断当前的时间是否和最后一个一致，一致就push到items中
+      } else {
+        result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]}); //否则就在x后面加上新的title
+      }
     }
-    return hashTable;
+    console.log(result);
+    return result;
   }
 
   beforeCreate() {
