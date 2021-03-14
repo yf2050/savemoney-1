@@ -40,6 +40,9 @@ export default class Money extends Vue {
 
   saveRecord() {
     this.$store.commit('createRecord', this.record);
+    if (this.$store.state.createRecordError === null) {
+      window.alert('已保存');
+    }
     //深拷贝 由于是对象，直接push会覆盖，生成一个完全一样的不同对象
     // const record2: RecordItem = JSON.parse(JSON.stringify(this.record));
     //localStorage.set('recordList',JSON.stringify(this.recordList)) //把recordList放在localStorage中，然后要进行JSON.stringify序列化，这种方法不是全局不好

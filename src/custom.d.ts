@@ -8,6 +8,8 @@ type RecordItem = { //先声明Recode类型
 }
 type RootState = {
   recordList: RecordItem[];
+  createRecordError: Error | null;
+  createTagError: Error | null;
   tagList: Tag[];
   currentTag?: Tag;
 };
