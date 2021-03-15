@@ -2,7 +2,8 @@
   <Layout>
     <Tabs class-pre-fix="type" :data-source="recordTypeList" :value.sync="type"/>
     <!--    <Tabs class-pre-fix="interval" :data-source="intervalList" :value.sync="interval" height="48px"/>-->
-    <ol v-for="(group,index) in groupList" :key="index">
+   <div v-if="groupList.length>0">
+    <ol  v-for="(group,index) in groupList" :key="index">
       <li>
         <h3 class="title">{{ beautify(group.title) }}
           <span> ￥{{ group.total }}</span>
@@ -16,6 +17,8 @@
         </ol>
       </li>
     </ol>
+   </div>
+    <div v-else class="noResult">目前没有添加任何记录</div>
   </Layout>
 </template>
 
@@ -54,7 +57,7 @@ export default class Statistics extends Vue {
   }
 
   tagString(tags: Tag[]) { //tag是数组 要显示数据
-    return tags.length === 0 ? '空' : tags.join(',');
+    return tags.length === 0 ? '空' : tags.map(item => item.name).join('，');
   }
 
   get recordList() {
@@ -63,11 +66,11 @@ export default class Statistics extends Vue {
 
   get groupList() {
     const {recordList} = this;
-    if (recordList.length === 0) {return [] as Result;} //为空直接返回空
     const newList = clone(recordList)
         .filter(x => x.type === this.type)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
     type Result = { title: string; total?: number; items: RecordItem[] }[]
+    if (newList.length === 0) {return [] as Result;} //为空直接返回空
     const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
     for (let i = 1; i < newList.length; i++) {
       const current = newList[i];  //当前元素
@@ -79,11 +82,10 @@ export default class Statistics extends Vue {
       }
     }
     result.map(x => {x.total = x.items.reduce((sum, item) => sum + item.amount, 0);});
-    console.log(result.map(item => item.total));
     return result;
   }
 
-  beforeCreate() {
+  created() {
     this.$store.commit('fetchRecords');
   }
 }
@@ -132,6 +134,10 @@ export default class Statistics extends Vue {
   .interval-tabs-item {
     //height: 48px;
   }
+}
+.noResult{
+  padding: 16px;
+  text-align: center;
 }
 </style>
 
