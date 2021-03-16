@@ -17,4 +17,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #f4f4f4;
 }
+#app{
+  max-width: 500px;
+  margin: 0 auto;
+}
 </style>
