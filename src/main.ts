@@ -27,7 +27,7 @@ window.onload = function () {
 
 if (document.documentElement.clientWidth > 500) {
   const img = document.createElement('img');
-  img.src = '/qrcode.png';
+  img.src = 'https://yufeng-1.oss-cn-beijing.aliyuncs.com/img/20210316150839.png';
   img.style.position = 'absolute';
   img.style.right = '0';
   img.style.top = '50%';
