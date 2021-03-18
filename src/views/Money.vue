@@ -1,5 +1,5 @@
 <template>
-  <Layout class-prefix="layout">
+  <Layout class-prefix="layout" :style="{height:h+'px'}">
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <FormItem fileName="备注" placeholder="请输入备注" :value.sync="record.notes"/>
@@ -28,6 +28,7 @@ window.localStorage.version = '0.0.1';
 export default class Money extends Vue {
   record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
   recordTypeList = recordTypeList;
+  h = document.body.clientHeight;
 
   get recordList() {
     return this.$store.state.recordList;
@@ -41,9 +42,9 @@ export default class Money extends Vue {
     this.$store.commit('createRecord', this.record);
     if (this.$store.state.createRecordError === null) {
       window.alert('已保存');
-      this.record.notes='' //此时更新也需要绑定
+      this.record.notes = ''; //此时更新也需要绑定
     }
-    this.$store.commit('fetchTags')
+    this.$store.commit('fetchTags');
   }
 
   //深拷贝 由于是对象，直接push会覆盖，生成一个完全一样的不同对象
