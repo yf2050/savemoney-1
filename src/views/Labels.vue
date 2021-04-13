@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div class="createTag-wrapper">
-      <!--      传递点击事件，.native装饰器，使得组件对应元素button传递click或者小buton传递给大Button-->
+      <!--      传递点击事件，.native装饰器，使得组件对应元素button传递click或者小button传递给大Button-->
       <!--      <Button @click.native="createTag">新建标签</Button>      -->
       <Button @click="createTag">新建标签</Button>
     </div>

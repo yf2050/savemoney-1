@@ -48,7 +48,7 @@ export default class Tags extends mixins(TagHelper) {
   flex-grow: 1;
   flex-direction: column-reverse;
   font-size: 14px;
-  padding: 16px;
+  padding: 0 16px;
 
   .current {
     display: flex;

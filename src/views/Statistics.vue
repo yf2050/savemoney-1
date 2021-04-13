@@ -123,7 +123,7 @@ export default class Statistics extends Vue {
     background: #c4c4c4;
 
     &.selected {
-      background: white;
+      background: #f9db60;
     }
 
     &::after {

@@ -21,7 +21,7 @@ const store = new Vuex.Store({
     //创数据
     createRecord(state, record: RecordItem) {
       const record2: RecordItem = clone(record);
-      record2.createdAt = new Date().toISOString();
+      record2.createdAt = record2.createdAt || new Date().toISOString();
       // this.recordList && this.recordList.push(record2);
       state.recordList.push(record2);
       store.commit('saveRecords');
@@ -34,10 +34,22 @@ const store = new Vuex.Store({
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
       if (!state.tagList || state.tagList.length === 0) {
-        store.commit('createTag', '衣');
-        store.commit('createTag', '食');
-        store.commit('createTag', '住');
-        store.commit('createTag', '行');
+        store.commit('createTag', '购物');
+        store.commit('createTag', '日用');
+        store.commit('createTag', '交通');
+        store.commit('createTag', '蔬菜');
+        store.commit('createTag', '水果');
+        store.commit('createTag', '零食');
+        // store.commit('createTag', '运动');
+        // store.commit('createTag', '娱乐');
+        // store.commit('createTag', '通讯');
+        // store.commit('createTag', '服饰');
+        // store.commit('createTag', '美容');
+        // store.commit('createTag', '住房');
+        // store.commit('createTag', '居家');
+        // store.commit('createTag', '孩子');
+        // store.commit('createTag', '长辈');
+        // store.commit('createTag', '社交');
       }
     }
     ,

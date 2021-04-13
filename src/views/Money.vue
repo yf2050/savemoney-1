@@ -1,9 +1,10 @@
 <template>
   <Layout class-prefix="layout" :style="{height:h+'px'}">
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
-    <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
+<!--    <FormItem fileName="日期" placeholder="请输入日期" :value.sync="record.createdAt"/>-->
     <FormItem fileName="备注" placeholder="请输入备注" :value.sync="record.notes"/>
     <Tags @update:value="record.tags=$event"/>
+    <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
   </Layout>
 </template>
 
@@ -26,7 +27,8 @@ window.localStorage.version = '0.0.1';
   }
 }) //components不能写在下面，不然相当于data了
 export default class Money extends Vue {
-  record: RecordItem = {tags: [], notes: '', type: '+', amount: 10};
+
+  record: RecordItem = {tags: [], notes: '', type: '-', amount: 0, createdAt: new Date().toISOString()};
   recordTypeList = recordTypeList;
   h = document.body.clientHeight;
 
@@ -41,7 +43,8 @@ export default class Money extends Vue {
     }
     this.$store.commit('createRecord', this.record);
     if (this.$store.state.createRecordError === null) {
-      window.alert('已保存');
+      this.$router.replace('/statistics')
+      // window.alert('已保存');
       this.record.notes = ''; //此时更新也需要绑定
     }
     this.$store.commit('fetchTags');
@@ -62,6 +65,7 @@ export default class Money extends Vue {
 <style lang="scss">
 .layout-content {
   display: flex;
+  justify-content: space-between;
   flex-direction: column-reverse;
 }
 </style>
